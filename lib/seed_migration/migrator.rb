@@ -246,7 +246,7 @@ module SeedMigration
 ActiveRecord::Base.transaction do
         eos
         SeedMigration.registrar.each do |register_entry|
-          register_entry.model.order('id').each do |instance|
+          register_entry.model.order(register_entry.model.primary_key).each do |instance|
             file.write generate_model_creation_string(instance, register_entry)
           end
 
@@ -267,7 +267,7 @@ SeedMigration::Migrator.bootstrap(#{last_migration})
     def self.generate_model_creation_string(instance, register_entry)
       attributes = instance.attributes.select {|key| register_entry.attributes.include?(key) }
       if SeedMigration.ignore_ids
-        attributes.delete('id')
+        attributes.delete(instance.class.primary_key)
       end
       sorted_attributes = {}
       attributes.sort.each do |key, value|
