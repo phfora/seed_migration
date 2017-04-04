@@ -252,7 +252,7 @@ ActiveRecord::Base.transaction do
 
           if !SeedMigration.ignore_ids
             file.write <<-eos
-  ActiveRecord::Base.connection.reset_pk_sequence!('#{register_entry.model.table_name}')
+  ActiveRecord::Base.connection.reset_pk_sequence!(#{register_entry.model}.table_name, #{register_entry.model}.primary_key, #{register_entry.model}.sequence_name)
             eos
           end
         end
