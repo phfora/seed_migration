@@ -243,6 +243,8 @@ module SeedMigration
 #
 # It's strongly recommended to check this file into your version control system.
 
+Rake::Task["seed:datetime_dimensions"].invoke
+
 ActiveRecord::Base.transaction do
         eos
         SeedMigration.registrar.each do |register_entry|
